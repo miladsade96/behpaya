@@ -29,6 +29,9 @@ public class Document extends Metadata {
     @Column(columnDefinition = "varchar(255)")
     private String description;
 
+    @Column(nullable = false)
+    private Boolean isHidden = false;
+
     @OneToMany(mappedBy = "document")
     private List<Board> boards;
 

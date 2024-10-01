@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class Metadata {
+public abstract class Metadata {
     @CreatedDate
     @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;
@@ -28,7 +28,4 @@ public class Metadata {
 
     @LastModifiedBy
     private User updatedBy;
-
-    @Column(nullable = false)
-    private Boolean isHidden;
 }

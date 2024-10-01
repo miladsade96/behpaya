@@ -35,6 +35,9 @@ public class Indicator extends Metadata {
     @Column(nullable = false)
     private Unit unit;
 
+    @Column(nullable = false)
+    private Boolean isHidden = false;
+
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;

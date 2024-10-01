@@ -25,6 +25,9 @@ public class Calculation extends Metadata {
     @Column(columnDefinition = "varchar(500)")
     private String description;
 
+    @Column(nullable = false)
+    private Boolean isHidden = false;
+
     @ManyToOne
     @JoinColumn(name = "document_id")
     private Document document;

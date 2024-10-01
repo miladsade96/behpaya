@@ -32,6 +32,9 @@ public class Board extends Metadata {
     @Column(unique = true, nullable = false)
     private Integer startNumber;
 
+    @Column(nullable = false)
+    private Boolean isHidden = false;
+
     @ManyToOne
     @JoinColumn(name = "document_id")
     private Document document;
