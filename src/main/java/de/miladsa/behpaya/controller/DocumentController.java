@@ -4,6 +4,8 @@ import de.miladsa.behpaya.Service.DocumentService;
 import de.miladsa.behpaya.dtos.DocumentProjection;
 import de.miladsa.behpaya.model.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,8 +28,13 @@ public class DocumentController {
         return documentService.getAllDocuments();
     }
 
-    @PostMapping("/document")
-    public Document addADocument(@RequestBody Document document) {
-        return documentService.addADocument(document);
+    @PostMapping(value = "/document")
+    public ResponseEntity<?> addADocument(@RequestBody Document document) {
+        var violations = documentService.addADocument(document);
+        if (!violations.isEmpty()) {
+            return ResponseEntity.badRequest().body(violations);
+        } else {
+            return ResponseEntity.status(HttpStatus.CREATED).body(document);
+        }
     }
 }
