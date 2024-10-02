@@ -1,6 +1,8 @@
 package de.miladsa.behpaya.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,6 +25,8 @@ public class Document extends Metadata {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull(message = "Document title does not provided")
+    @NotEmpty(message = "Document title could not be empty")
     @Column(columnDefinition = "varchar(100)", nullable = false)
     private String title;
 
