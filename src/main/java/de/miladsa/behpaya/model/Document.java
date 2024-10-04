@@ -45,8 +45,27 @@ public class Document extends Metadata {
     )
     private List<Board> boards = new ArrayList<>();
 
-    @OneToMany(mappedBy = "document")
-    private List<Calculation> calculations;
+    @OneToMany(
+            mappedBy = "document",
+            orphanRemoval = true,
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    private List<Calculation> calculations = new ArrayList<>();
+
+    public void removeCalculation(Calculation calculation) {
+        if (this.calculations.contains(calculation)) {
+            this.calculations.remove(calculation);
+            calculation.setDocument(null);
+        }
+    }
+
+    public void addCalculations(Calculation calculation) {
+        if (!this.calculations.contains(calculation)) {
+            this.calculations.add(calculation);
+            calculation.setDocument(this);
+        }
+    }
 
     public void removeBoard(Board board) {
         if (this.boards.contains(board)) {

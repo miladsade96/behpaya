@@ -29,6 +29,11 @@ public class Calculation extends Metadata {
     private Boolean isHidden = false;
 
     @ManyToOne
-    @JoinColumn(name = "document_id")
+    @JoinColumn(
+            name = "document_id",
+            nullable = false,
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(name = "document_id_fk")
+    )
     private Document document;
 }
