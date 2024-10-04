@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -22,6 +23,7 @@ import java.util.List;
 public class Document extends Metadata {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false)
     private Integer id;
 
     @NotNull(message = "Document title does not provided")
@@ -35,9 +37,28 @@ public class Document extends Metadata {
     @Column(nullable = false)
     private Boolean isHidden = false;
 
-    @OneToMany(mappedBy = "document")
-    private List<Board> boards;
+    @OneToMany(
+            mappedBy = "document",
+            orphanRemoval = true,
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    private List<Board> boards = new ArrayList<>();
 
     @OneToMany(mappedBy = "document")
     private List<Calculation> calculations;
+
+    public void removeBoard(Board board) {
+        if (this.boards.contains(board)) {
+            this.boards.remove(board);
+            board.setDocument(null);
+        }
+    }
+
+    public void addBoard(Board board) {
+        if (!this.boards.contains(board)) {
+            this.boards.add(board);
+            board.setDocument(this);
+        }
+    }
 }
