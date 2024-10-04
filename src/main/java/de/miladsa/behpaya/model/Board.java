@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -44,6 +45,25 @@ public class Board extends Metadata {
     )
     private Document document;
 
-    @OneToMany(mappedBy = "board")
-    private List<Indicator> indicators;
+    @OneToMany(
+            mappedBy = "board",
+            orphanRemoval = true,
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    private List<Indicator> indicators = new ArrayList<>();
+
+    public void removeIndicator(Indicator indicator) {
+        if (this.indicators.contains(indicator)) {
+            this.indicators.remove(indicator);
+            indicator.setBoard(null);
+        }
+    }
+
+    public void addIndicator(Indicator indicator) {
+        if (!this.indicators.contains(indicator)) {
+            this.indicators.add(indicator);
+            indicator.setBoard(this);
+        }
+    }
 }

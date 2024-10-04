@@ -39,7 +39,12 @@ public class Indicator extends Metadata {
     private Boolean isHidden = false;
 
     @ManyToOne
-    @JoinColumn(name = "board_id")
+    @JoinColumn(
+            name = "board_id",
+            nullable = false,
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(name = "board_id_fk")
+    )
     private Board board;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
