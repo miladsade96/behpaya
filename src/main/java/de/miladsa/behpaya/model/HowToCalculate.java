@@ -19,6 +19,11 @@ public class HowToCalculate {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "indicator_id")
+    @JoinColumn(
+            name = "indicator_id",
+            nullable = false,
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(name = "indicator_id_fk")
+    )
     private Indicator indicator;
 }

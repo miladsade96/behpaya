@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -55,7 +56,25 @@ public class Indicator extends Metadata {
     @JoinColumn(name = "translation_description_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "translation_description_id_fk"))
     private TranslationDescription translationDescription;
 
-    @OneToMany(mappedBy = "indicator")
-    @Column(nullable = false)
-    private List<HowToCalculate> howToCalculateList;
+    @OneToMany(
+            mappedBy = "indicator",
+            orphanRemoval = true,
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    private List<HowToCalculate> howToCalculateList = new ArrayList<>();
+
+    public void removeHowToCalculate(HowToCalculate howToCalculate) {
+        if (this.howToCalculateList.contains(howToCalculate)) {
+            this.howToCalculateList.remove(howToCalculate);
+            howToCalculate.setIndicator(null);
+        }
+    }
+
+    public void addHowToCalculate(HowToCalculate howToCalculate) {
+        if (!this.howToCalculateList.contains(howToCalculate)) {
+            this.howToCalculateList.add(howToCalculate);
+            howToCalculate.setIndicator(this);
+        }
+    }
 }
