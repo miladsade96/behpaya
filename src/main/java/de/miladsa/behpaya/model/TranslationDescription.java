@@ -16,5 +16,6 @@ import lombok.NoArgsConstructor;
 public class TranslationDescription extends AvailableTranslations {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false)
     private Integer id;
 }

@@ -20,6 +20,7 @@ import java.util.List;
 public class Indicator extends Metadata {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false)
     private Integer id;
 
     @Column(columnDefinition = "varchar(255)", nullable = false)
@@ -41,12 +42,12 @@ public class Indicator extends Metadata {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    @OneToOne
-    @JoinColumn(name = "translation_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "translation_id", referencedColumnName = "id")
     private Translation translation;
 
-    @OneToOne
-    @JoinColumn(name = "translation_description_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "translation_description_id", referencedColumnName = "id")
     private TranslationDescription translationDescription;
 
     @OneToMany(mappedBy = "indicator")
