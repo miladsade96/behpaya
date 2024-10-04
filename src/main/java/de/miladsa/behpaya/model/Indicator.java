@@ -42,12 +42,12 @@ public class Indicator extends Metadata {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "translation_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "translation_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "translation_id_fk"))
     private Translation translation;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "translation_description_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "translation_description_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "translation_description_id_fk"))
     private TranslationDescription translationDescription;
 
     @OneToMany(mappedBy = "indicator")
