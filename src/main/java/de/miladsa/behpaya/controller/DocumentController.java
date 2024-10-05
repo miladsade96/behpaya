@@ -1,8 +1,8 @@
 package de.miladsa.behpaya.controller;
 
 import de.miladsa.behpaya.Service.DocumentService;
-import de.miladsa.behpaya.dtos.DocumentProjection;
-import de.miladsa.behpaya.model.Document;
+import de.miladsa.behpaya.dto.DocumentDTO;
+import de.miladsa.behpaya.projection.DocumentProjection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +29,12 @@ public class DocumentController {
     }
 
     @PostMapping(value = "/document")
-    public ResponseEntity<?> addADocument(@RequestBody Document document) {
-        var violations = documentService.addADocument(document);
+    public ResponseEntity<?> addADocument(@RequestBody DocumentDTO documentDTO) {
+        var violations = documentService.addADocument(documentDTO);
         if (!violations.isEmpty()) {
             return ResponseEntity.badRequest().body(violations);
         } else {
-            return ResponseEntity.status(HttpStatus.CREATED).body(document);
+            return ResponseEntity.status(HttpStatus.CREATED).body(documentDTO);
         }
     }
 }
