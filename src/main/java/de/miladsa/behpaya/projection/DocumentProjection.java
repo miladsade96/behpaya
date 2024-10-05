@@ -1,4 +1,4 @@
-package de.miladsa.behpaya.dtos;
+package de.miladsa.behpaya.projection;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -54,7 +54,7 @@ public class Indicator extends Metadata {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "translation_description_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "translation_description_id_fk"))
-    private TranslationDescription translationDescription;
+    private Translation translationDescription;
 
     @OneToMany(
             mappedBy = "indicator",
