@@ -1,6 +1,8 @@
 package de.miladsa.behpaya.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,12 +26,15 @@ public class Board extends Metadata {
     @Column(updatable = false)
     private Integer id;
 
+    @NotNull(message = "Provide board title")
+    @NotEmpty(message = "Board title could not be empty")
     @Column(columnDefinition = "varchar(100)", nullable = false)
     private String title;
 
     @Column(columnDefinition = "varchar(500)")
     private String description;
 
+    @NotNull(message = "Provide start number")
     @Column(unique = true, nullable = false)
     private Integer startNumber;
 
@@ -53,17 +58,17 @@ public class Board extends Metadata {
     )
     private List<Indicator> indicators = new ArrayList<>();
 
-    public void removeIndicator(Indicator indicator) {
-        if (this.indicators.contains(indicator)) {
-            this.indicators.remove(indicator);
-            indicator.setBoard(null);
-        }
-    }
-
-    public void addIndicator(Indicator indicator) {
-        if (!this.indicators.contains(indicator)) {
-            this.indicators.add(indicator);
-            indicator.setBoard(this);
-        }
-    }
+//    public void removeIndicator(Indicator indicator) {
+//        if (this.indicators.contains(indicator)) {
+//            this.indicators.remove(indicator);
+//            indicator.setBoard(null);
+//        }
+//    }
+//
+//    public void addIndicator(Indicator indicator) {
+//        if (!this.indicators.contains(indicator)) {
+//            this.indicators.add(indicator);
+//            indicator.setBoard(this);
+//        }
+//    }
 }
