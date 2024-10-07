@@ -4,6 +4,8 @@ import de.miladsa.behpaya.validators.ValidIndicatorType;
 import de.miladsa.behpaya.validators.ValidType;
 import de.miladsa.behpaya.validators.ValidUnit;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,17 +29,22 @@ public class Indicator extends Metadata {
     @Column(updatable = false)
     private Integer id;
 
+    @NotNull(message = "Provide the name of the indicator")
+    @NotEmpty(message = "Indicator name could not be empty")
     @Column(columnDefinition = "varchar(255)", nullable = false)
     private String name;
 
+    @NotNull(message = "Provide type property")
     @ValidType(message = "Provided type is invalid")
     @Column(nullable = false)
     private Type type;
 
+    @NotNull(message = "Provide indicatorType property")
     @ValidIndicatorType(message = "Provided indicatorType is invalid")
     @Column(nullable = false)
     private IndicatorType indicatorType;
 
+    @NotNull(message = "Provide the unit of the indicator")
     @ValidUnit(message = "Provided unit is invalid")
     @Column(nullable = false)
     private Unit unit;
@@ -69,18 +76,4 @@ public class Indicator extends Metadata {
             fetch = FetchType.LAZY
     )
     private List<HowToCalculate> howToCalculateList = new ArrayList<>();
-
-//    public void removeHowToCalculate(HowToCalculate howToCalculate) {
-//        if (this.howToCalculateList.contains(howToCalculate)) {
-//            this.howToCalculateList.remove(howToCalculate);
-//            howToCalculate.setIndicator(null);
-//        }
-//    }
-//
-//    public void addHowToCalculate(HowToCalculate howToCalculate) {
-//        if (!this.howToCalculateList.contains(howToCalculate)) {
-//            this.howToCalculateList.add(howToCalculate);
-//            howToCalculate.setIndicator(this);
-//        }
-//    }
 }
