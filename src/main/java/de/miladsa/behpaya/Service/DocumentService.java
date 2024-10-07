@@ -92,6 +92,7 @@ public class DocumentService {
         document.setTitle(documentDTO.getTitle());
         document.setDescription(documentDTO.getDescription());
         var violations = documentValidator.validator(document);
+        if (!violations.isEmpty()) return violations;
         var savedDoc = documentRepository.save(document);
 
         var boards = documentDTO.getBoards();
@@ -102,6 +103,7 @@ public class DocumentService {
             board.setDocument(savedDoc);
             board.setStartNumber(board_dto.getStartNumber());
             violations.addAll(boardValidator.validator(board));
+            if (!violations.isEmpty()) return violations;
             var savedBoard = boardRepository.save(board);
 
             for (IndicatorDTO indicator_dto : board_dto.getIndicators()) {
@@ -116,12 +118,14 @@ public class DocumentService {
                 translation.setEn(indicator_dto.getTranslationDTO().getEn());
                 translation.setFa(indicator_dto.getTranslationDTO().getFa());
                 violations.addAll(translationValidator.validator(translation));
+                if (!violations.isEmpty()) return violations;
                 indicator.setTranslation(translation);
 
                 var translationDescription = new Translation();
                 translationDescription.setEn(indicator_dto.getTranslationDescriptionDTO().getEn());
                 translationDescription.setFa(indicator_dto.getTranslationDescriptionDTO().getFa());
                 violations.addAll(translationValidator.validator(translationDescription));
+                if (!violations.isEmpty()) return violations;
                 indicator.setTranslationDescription(translationDescription);
 
                 violations.addAll(indicatorValidator.validator(indicator));
@@ -132,6 +136,7 @@ public class DocumentService {
                     htc.setIndicator(savedIndicator);
                     htc.setDescription(howToCalculateDTO.getDescription());
                     violations.addAll(howToCalculateValidator.validator(htc));
+                    if (!violations.isEmpty()) return violations;
                     howToCalculateRepository.save(htc);
                 }
             }
@@ -143,13 +148,10 @@ public class DocumentService {
             calculation.setCommand(calculation_dto.getCommand());
             calculation.setDescription(calculation_dto.getDescription());
             violations.addAll(calculationValidator.validator(calculation));
+            if (!violations.isEmpty()) return violations;
             calculationRepository.save(calculation);
 
         }
-        if (!violations.isEmpty()) {
-            return violations;
-        } else {
-            return Collections.emptySet();
-        }
+        return Collections.emptySet();
     }
 }
