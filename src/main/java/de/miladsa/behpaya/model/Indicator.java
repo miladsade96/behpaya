@@ -1,5 +1,8 @@
 package de.miladsa.behpaya.model;
 
+import de.miladsa.behpaya.validators.ValidIndicatorType;
+import de.miladsa.behpaya.validators.ValidType;
+import de.miladsa.behpaya.validators.ValidUnit;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,12 +30,15 @@ public class Indicator extends Metadata {
     @Column(columnDefinition = "varchar(255)", nullable = false)
     private String name;
 
+    @ValidType(message = "Provided type is invalid")
     @Column(nullable = false)
     private Type type;
 
+    @ValidIndicatorType(message = "Provided indicatorType is invalid")
     @Column(nullable = false)
     private IndicatorType indicatorType;
 
+    @ValidUnit(message = "Provided unit is invalid")
     @Column(nullable = false)
     private Unit unit;
 
@@ -64,17 +70,17 @@ public class Indicator extends Metadata {
     )
     private List<HowToCalculate> howToCalculateList = new ArrayList<>();
 
-    public void removeHowToCalculate(HowToCalculate howToCalculate) {
-        if (this.howToCalculateList.contains(howToCalculate)) {
-            this.howToCalculateList.remove(howToCalculate);
-            howToCalculate.setIndicator(null);
-        }
-    }
-
-    public void addHowToCalculate(HowToCalculate howToCalculate) {
-        if (!this.howToCalculateList.contains(howToCalculate)) {
-            this.howToCalculateList.add(howToCalculate);
-            howToCalculate.setIndicator(this);
-        }
-    }
+//    public void removeHowToCalculate(HowToCalculate howToCalculate) {
+//        if (this.howToCalculateList.contains(howToCalculate)) {
+//            this.howToCalculateList.remove(howToCalculate);
+//            howToCalculate.setIndicator(null);
+//        }
+//    }
+//
+//    public void addHowToCalculate(HowToCalculate howToCalculate) {
+//        if (!this.howToCalculateList.contains(howToCalculate)) {
+//            this.howToCalculateList.add(howToCalculate);
+//            howToCalculate.setIndicator(this);
+//        }
+//    }
 }
