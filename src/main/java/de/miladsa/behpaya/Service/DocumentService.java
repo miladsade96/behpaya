@@ -2,21 +2,21 @@ package de.miladsa.behpaya.Service;
 
 import de.miladsa.behpaya.dto.*;
 import de.miladsa.behpaya.model.*;
-import de.miladsa.behpaya.projection.DocumentProjection;
 import de.miladsa.behpaya.repository.*;
 import de.miladsa.behpaya.validators.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 @Service
 @Transactional
 public class DocumentService {
     private DocumentRepository documentRepository;
+    private DocumentCriteriaRepository documentCriteriaRepository;
     private DocumentValidator documentValidator;
     private BoardRepository boardRepository;
     private IndicatorRepository indicatorRepository;
@@ -27,6 +27,11 @@ public class DocumentService {
     private IndicatorValidator indicatorValidator;
     private HowToCalculateValidator howToCalculateValidator;
     private CalculationValidator calculationValidator;
+
+    @Autowired
+    public void setDocumentCriteriaRepository(DocumentCriteriaRepository documentCriteriaRepository) {
+        this.documentCriteriaRepository = documentCriteriaRepository;
+    }
 
     @Autowired
     public void setDocumentRepository(DocumentRepository documentRepository) {
@@ -83,8 +88,8 @@ public class DocumentService {
         this.calculationValidator = calculationValidator;
     }
 
-    public List<DocumentProjection> getAllDocuments() {
-        return documentRepository.findAllDocuments();
+    public Page<Document> getDocuments(DocumentPage documentPage, DocumentSearchCriteria documentSearchCriteria) {
+        return documentCriteriaRepository.findAllWithFilters(documentPage, documentSearchCriteria);
     }
 
     public Document getDocumentById(Integer id) {

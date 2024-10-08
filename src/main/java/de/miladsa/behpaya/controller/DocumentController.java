@@ -2,13 +2,14 @@ package de.miladsa.behpaya.controller;
 
 import de.miladsa.behpaya.Service.DocumentService;
 import de.miladsa.behpaya.dto.DocumentDTO;
-import de.miladsa.behpaya.projection.DocumentProjection;
+import de.miladsa.behpaya.model.Document;
+import de.miladsa.behpaya.model.DocumentPage;
+import de.miladsa.behpaya.model.DocumentSearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @RestController
@@ -21,8 +22,8 @@ public class DocumentController {
     }
 
     @GetMapping("/documents")
-    public List<DocumentProjection> getAllDocuments() {
-        return documentService.getAllDocuments();
+    public ResponseEntity<Page<Document>> getDocuments(DocumentPage documentPage, DocumentSearchCriteria documentSearchCriteria) {
+        return new ResponseEntity<>(documentService.getDocuments(documentPage, documentSearchCriteria), HttpStatus.OK);
     }
 
     @GetMapping("/document/{id}")
