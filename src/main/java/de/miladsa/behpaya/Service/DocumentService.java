@@ -87,6 +87,10 @@ public class DocumentService {
         return documentRepository.findAllDocuments();
     }
 
+    public Document getDocumentById(Integer id) {
+        return documentRepository.findById(id).orElse(null);
+    }
+
     public Set<String> addADocument(DocumentDTO documentDTO) {
         var document = new Document();
         document.setTitle(documentDTO.getTitle());
