@@ -1,5 +1,6 @@
 package de.miladsa.behpaya.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -41,34 +42,20 @@ public class Board extends Metadata {
     @Column(nullable = false)
     private Boolean isHidden = false;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "document_id",
             nullable = false,
             referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "document_id_fk")
     )
+    @JsonBackReference
     private Document document;
 
     @OneToMany(
             mappedBy = "board",
             orphanRemoval = true,
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
+            cascade = CascadeType.ALL
     )
     private List<Indicator> indicators = new ArrayList<>();
-
-//    public void removeIndicator(Indicator indicator) {
-//        if (this.indicators.contains(indicator)) {
-//            this.indicators.remove(indicator);
-//            indicator.setBoard(null);
-//        }
-//    }
-//
-//    public void addIndicator(Indicator indicator) {
-//        if (!this.indicators.contains(indicator)) {
-//            this.indicators.add(indicator);
-//            indicator.setBoard(this);
-//        }
-//    }
 }

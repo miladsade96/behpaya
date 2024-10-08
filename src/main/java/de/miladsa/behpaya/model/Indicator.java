@@ -1,5 +1,6 @@
 package de.miladsa.behpaya.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import de.miladsa.behpaya.validators.ValidIndicatorType;
 import de.miladsa.behpaya.validators.ValidType;
 import de.miladsa.behpaya.validators.ValidUnit;
@@ -52,13 +53,14 @@ public class Indicator extends Metadata {
     @Column(nullable = false)
     private Boolean isHidden = false;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "board_id",
             nullable = false,
             referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "board_id_fk")
     )
+    @JsonBackReference
     private Board board;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -75,5 +77,6 @@ public class Indicator extends Metadata {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
+    @JsonBackReference
     private List<HowToCalculate> howToCalculateList = new ArrayList<>();
 }

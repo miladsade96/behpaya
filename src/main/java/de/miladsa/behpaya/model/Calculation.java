@@ -1,5 +1,6 @@
 package de.miladsa.behpaya.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,12 +30,13 @@ public class Calculation extends Metadata {
     @Column(nullable = false)
     private Boolean isHidden = false;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "document_id",
             nullable = false,
             referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "document_id_fk")
     )
+    @JsonBackReference
     private Document document;
 }

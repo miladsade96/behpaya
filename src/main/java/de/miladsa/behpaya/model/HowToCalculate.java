@@ -1,5 +1,6 @@
 package de.miladsa.behpaya.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -23,12 +24,13 @@ public class HowToCalculate {
     @Column(name = "how_to_calculate_description", columnDefinition = "varchar(500)", nullable = false)
     private String description;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "indicator_id",
             nullable = false,
             referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "indicator_id_fk")
     )
+    @JsonBackReference
     private Indicator indicator;
 }
