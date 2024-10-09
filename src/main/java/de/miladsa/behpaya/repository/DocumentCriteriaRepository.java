@@ -43,7 +43,7 @@ public class DocumentCriteriaRepository {
         return new PageImpl<>(typedQuery.getResultList(), pageable, documentsCount);
     }
 
-    // It's not working properly!!!!!!
+    // TODO: It's not working properly, we need to troubleshoot it.
     private Predicate getPredicate(DocumentSearchCriteria documentSearchCriteria, Root<Document> documentRoot) {
         List<Predicate> predicates = new ArrayList<>();
         if (Objects.nonNull(documentSearchCriteria.getTitle())) {
