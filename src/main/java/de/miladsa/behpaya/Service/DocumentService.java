@@ -28,6 +28,15 @@ public class DocumentService {
     private HowToCalculateValidator howToCalculateValidator;
     private CalculationValidator calculationValidator;
 
+    // TODO: It's not working properly, we need to troubleshoot it.
+    public Object updateADocument(Integer id, Document document) {
+        if (!documentRepository.existsById(id)) {
+            return "Document with provided id does not exist";
+        }
+        document.setId(id);
+        return documentRepository.save(document);
+    }
+
     @Autowired
     public void setDocumentCriteriaRepository(DocumentCriteriaRepository documentCriteriaRepository) {
         this.documentCriteriaRepository = documentCriteriaRepository;

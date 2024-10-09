@@ -54,4 +54,14 @@ public class DocumentController {
         }
         return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
     }
+
+    // TODO: It's not working properly, we need to troubleshoot it.
+    @PutMapping(value = "/document/{id}", consumes = "application/json")
+    public ResponseEntity<?> updateADocument(@PathVariable Integer id, @RequestBody Document document) {
+        var result = documentService.updateADocument(id, document);
+        if (result instanceof String) {
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }
