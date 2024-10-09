@@ -163,4 +163,12 @@ public class DocumentService {
         }
         return Collections.emptySet();
     }
+
+    public String deleteADocument(Integer id) {
+        if (documentRepository.existsById(id)) {
+            documentRepository.deleteById(id);
+            return null;
+        }
+        return "Document with provided id does not exist!";
+    }
 }

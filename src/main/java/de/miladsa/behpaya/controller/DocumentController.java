@@ -45,4 +45,13 @@ public class DocumentController {
             return ResponseEntity.status(HttpStatus.CREATED).body(documentDTO);
         }
     }
+
+    @DeleteMapping("/document/{id}")
+    public ResponseEntity<?> deleteADocument(@PathVariable Integer id) {
+        var result = documentService.deleteADocument(id);
+        if (result == null) {
+            return ResponseEntity.noContent().build();
+        }
+        return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+    }
 }
