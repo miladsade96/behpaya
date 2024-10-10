@@ -3,6 +3,8 @@ package de.miladsa.behpaya.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,6 +25,8 @@ public class Calculation extends Metadata {
     @Column(updatable = false)
     private Integer number;
 
+    @NotNull(message = "Provide calculation command")
+    @NotEmpty(message = "Calculation command could not be empty")
     @Column(columnDefinition = "varchar(255)")
     private String command;
 
@@ -36,6 +40,7 @@ public class Calculation extends Metadata {
     @Column(name = "VERSION", nullable = false)
     private Long version;
 
+    @NotNull(message = "Provide document info to connect with calculation")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "document_id",
