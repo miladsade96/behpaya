@@ -33,8 +33,13 @@ public class DocumentService {
         if (!documentRepository.existsById(id)) {
             return "Document with provided id does not exist";
         }
-        document.setId(id);
-        return documentRepository.save(document);
+        var oldDocument = documentRepository.findById(id).get();
+        oldDocument.setTitle(document.getTitle());
+        oldDocument.setDescription(document.getDescription());
+        oldDocument.setBoards(document.getBoards());
+        oldDocument.setCalculations(document.getCalculations());
+        oldDocument.setIsHidden(document.getIsHidden());
+        return documentRepository.save(oldDocument);
     }
 
     @Autowired

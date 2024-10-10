@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -58,10 +59,16 @@ public class DocumentController {
     // TODO: It's not working properly, we need to troubleshoot it.
     @PutMapping(value = "/document/{id}", consumes = "application/json")
     public ResponseEntity<?> updateADocument(@PathVariable Integer id, @RequestBody Document document) {
-        var result = documentService.updateADocument(id, document);
-        if (result instanceof String) {
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        try {
+            var result = documentService.updateADocument(id, document);
+            if (result instanceof String) {
+                return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (ObjectOptimisticLockingFailureException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
