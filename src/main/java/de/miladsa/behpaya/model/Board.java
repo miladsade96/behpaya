@@ -1,6 +1,7 @@
 package de.miladsa.behpaya.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -46,7 +47,7 @@ public class Board extends Metadata {
     @Column(name = "VERSION", nullable = false)
     private Long version;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(
             name = "document_id",
             nullable = false,
@@ -61,5 +62,6 @@ public class Board extends Metadata {
             orphanRemoval = true,
             cascade = CascadeType.ALL
     )
+    @JsonManagedReference
     private List<Indicator> indicators = new ArrayList<>();
 }

@@ -1,6 +1,7 @@
 package de.miladsa.behpaya.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import de.miladsa.behpaya.validators.ValidIndicatorType;
 import de.miladsa.behpaya.validators.ValidType;
 import de.miladsa.behpaya.validators.ValidUnit;
@@ -81,6 +82,6 @@ public class Indicator extends Metadata {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    @JsonBackReference
+    @JsonManagedReference
     private List<HowToCalculate> howToCalculateList = new ArrayList<>();
 }

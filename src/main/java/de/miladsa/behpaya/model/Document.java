@@ -1,5 +1,6 @@
 package de.miladsa.behpaya.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -46,6 +47,7 @@ public class Document extends Metadata {
             orphanRemoval = true,
             cascade = CascadeType.ALL
     )
+    @JsonManagedReference
     private List<Board> boards = new ArrayList<>();
 
     @OneToMany(
@@ -53,5 +55,6 @@ public class Document extends Metadata {
             orphanRemoval = true,
             cascade = CascadeType.ALL
     )
+    @JsonManagedReference
     private List<Calculation> calculations = new ArrayList<>();
 }
