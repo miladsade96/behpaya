@@ -37,6 +37,10 @@ public class Document extends Metadata {
     @Column(nullable = false)
     private Boolean isHidden = false;
 
+    @Version
+    @Column(name = "VERSION", nullable = false)
+    private Long version;
+
     @OneToMany(
             mappedBy = "document",
             orphanRemoval = true,

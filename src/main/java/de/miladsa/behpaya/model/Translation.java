@@ -26,4 +26,8 @@ public class Translation {
     @NotEmpty(message = "Field en could not be empty")
     @Column(columnDefinition = "varchar(1000)", nullable = false)
     private String en;
+
+    @Version
+    @Column(name = "VERSION", nullable = false)
+    private Long version;
 }

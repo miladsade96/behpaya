@@ -42,6 +42,10 @@ public class Board extends Metadata {
     @Column(nullable = false)
     private Boolean isHidden = false;
 
+    @Version
+    @Column(name = "VERSION", nullable = false)
+    private Long version;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "document_id",

@@ -24,6 +24,10 @@ public class HowToCalculate {
     @Column(name = "how_to_calculate_description", columnDefinition = "varchar(500)", nullable = false)
     private String description;
 
+    @Version
+    @Column(name = "VERSION", nullable = false)
+    private Long version;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "indicator_id",

@@ -53,6 +53,10 @@ public class Indicator extends Metadata {
     @Column(nullable = false)
     private Boolean isHidden = false;
 
+    @Version
+    @Column(name = "VERSION", nullable = false)
+    private Long version;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "board_id",
