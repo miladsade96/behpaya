@@ -1,6 +1,7 @@
 package de.miladsa.behpaya.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +16,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @Table(name = "calculations")
 @EntityListeners(AuditingEntityListener.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "number", scope = Calculation.class)
 public class Calculation extends Metadata {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +43,5 @@ public class Calculation extends Metadata {
             referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "document_id_fk")
     )
-    @JsonBackReference
     private Document document;
 }

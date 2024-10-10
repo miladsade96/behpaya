@@ -1,7 +1,7 @@
 package de.miladsa.behpaya.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import de.miladsa.behpaya.validators.ValidIndicatorType;
 import de.miladsa.behpaya.validators.ValidType;
 import de.miladsa.behpaya.validators.ValidUnit;
@@ -25,6 +25,7 @@ import java.util.List;
 @Entity
 @Table(name = "indicators")
 @EntityListeners(AuditingEntityListener.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Indicator.class)
 public class Indicator extends Metadata {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,7 +66,6 @@ public class Indicator extends Metadata {
             referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "board_id_fk")
     )
-    @JsonBackReference
     private Board board;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -82,6 +82,5 @@ public class Indicator extends Metadata {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    @JsonManagedReference
     private List<HowToCalculate> howToCalculateList = new ArrayList<>();
 }

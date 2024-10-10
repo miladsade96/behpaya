@@ -1,7 +1,7 @@
 package de.miladsa.behpaya.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -22,6 +22,7 @@ import java.util.List;
 @Entity
 @Table(name = "boards")
 @EntityListeners(AuditingEntityListener.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Board.class)
 public class Board extends Metadata {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,14 +48,13 @@ public class Board extends Metadata {
     @Column(name = "VERSION", nullable = false)
     private Long version;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "document_id",
             nullable = false,
             referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "document_id_fk")
     )
-    @JsonBackReference
     private Document document;
 
     @OneToMany(
@@ -62,6 +62,5 @@ public class Board extends Metadata {
             orphanRemoval = true,
             cascade = CascadeType.ALL
     )
-    @JsonManagedReference
     private List<Indicator> indicators = new ArrayList<>();
 }

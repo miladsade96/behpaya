@@ -1,6 +1,7 @@
 package de.miladsa.behpaya.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "HowToCalculate")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = HowToCalculate.class)
 public class HowToCalculate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +37,5 @@ public class HowToCalculate {
             referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "indicator_id_fk")
     )
-    @JsonBackReference
     private Indicator indicator;
 }
