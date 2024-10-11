@@ -2,6 +2,7 @@ package de.miladsa.behpaya.Service;
 
 import de.miladsa.behpaya.dto.*;
 import de.miladsa.behpaya.model.*;
+import de.miladsa.behpaya.projection.DocumentProjection;
 import de.miladsa.behpaya.repository.*;
 import de.miladsa.behpaya.validators.*;
 import jakarta.transaction.Transactional;
@@ -27,20 +28,6 @@ public class DocumentService {
     private IndicatorValidator indicatorValidator;
     private HowToCalculateValidator howToCalculateValidator;
     private CalculationValidator calculationValidator;
-
-    // TODO: It's not working properly, we need to troubleshoot it.
-    public Object updateADocument(Integer id, Document document) {
-        if (!documentRepository.existsById(id)) {
-            return "Document with provided id does not exist";
-        }
-        var oldDocument = documentRepository.findById(id).get();
-        oldDocument.setTitle(document.getTitle());
-        oldDocument.setDescription(document.getDescription());
-        oldDocument.setBoards(document.getBoards());
-        oldDocument.setCalculations(document.getCalculations());
-        oldDocument.setIsHidden(document.getIsHidden());
-        return documentRepository.save(oldDocument);
-    }
 
     @Autowired
     public void setDocumentCriteriaRepository(DocumentCriteriaRepository documentCriteriaRepository) {
@@ -102,8 +89,16 @@ public class DocumentService {
         this.calculationValidator = calculationValidator;
     }
 
-    public Page<Document> getDocuments(DocumentPage documentPage, DocumentSearchCriteria documentSearchCriteria) {
-        return documentCriteriaRepository.findAllWithFilters(documentPage, documentSearchCriteria);
+    public Page<DocumentProjection> getDocuments(DocumentPage documentPage, DocumentSearchCriteria documentSearchCriteria) {
+        Page<Document> documents = documentCriteriaRepository.findAllWithFilters(documentPage, documentSearchCriteria);
+        return documents.map(document -> {
+            DocumentProjection documentProjection = new DocumentProjection();
+            documentProjection.setId(document.getId());
+            documentProjection.setTitle(document.getTitle());
+            documentProjection.setDescription(document.getDescription());
+            documentProjection.setIsHidden(document.getIsHidden());
+            return documentProjection;
+        });
     }
 
     public Document getDocumentById(Integer id) {
@@ -184,5 +179,19 @@ public class DocumentService {
             return null;
         }
         return "Document with provided id does not exist!";
+    }
+
+    // TODO: It's not working properly, we need to troubleshoot it.
+    public Object updateADocument(Integer id, Document document) {
+        if (!documentRepository.existsById(id)) {
+            return "Document with provided id does not exist";
+        }
+        var oldDocument = documentRepository.findById(id).get();
+        oldDocument.setTitle(document.getTitle());
+        oldDocument.setDescription(document.getDescription());
+        oldDocument.setBoards(document.getBoards());
+        oldDocument.setCalculations(document.getCalculations());
+        oldDocument.setIsHidden(document.getIsHidden());
+        return documentRepository.save(oldDocument);
     }
 }

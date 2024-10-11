@@ -5,6 +5,7 @@ import de.miladsa.behpaya.dto.DocumentDTO;
 import de.miladsa.behpaya.model.Document;
 import de.miladsa.behpaya.model.DocumentPage;
 import de.miladsa.behpaya.model.DocumentSearchCriteria;
+import de.miladsa.behpaya.projection.DocumentProjection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class DocumentController {
     }
 
     @GetMapping("/documents")
-    public ResponseEntity<Page<Document>> getDocuments(DocumentPage documentPage, DocumentSearchCriteria documentSearchCriteria) {
+    public ResponseEntity<Page<DocumentProjection>> getDocuments(DocumentPage documentPage, DocumentSearchCriteria documentSearchCriteria) {
         return new ResponseEntity<>(documentService.getDocuments(documentPage, documentSearchCriteria), HttpStatus.OK);
     }
 
